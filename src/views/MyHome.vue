@@ -1,53 +1,61 @@
 <template>
-  <div class="application">
-    <MyHeader />
-    <div class="container">
-      <MyAside />
-      <MyMain />
+  <div class="my-main">
+    <div class="top">
+      <div class="left">
+        <Category />
+        <Search />
+        <MyCart />
+      </div>
+      <div class="right">
+        <Info />
+      </div>
     </div>
+
+    <MyTable />
+    <MyPagination />
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import MyHeader from "@/components/common/MyHeader.vue";
-import MyAside from "@/components/common/MyAside.vue";
-import MyMain from "@/components/MyHome/MyMain.vue";
+import Search from "@/components/MyHome/MySearch.vue";
+import Category from "@/components/MyHome/MyCategory.vue";
+import MyTable from "@/components/MyHome/MyTable/MyTable.vue";
+import Info from "@/components/MyHome/MyInfo.vue";
+import MyCart from "@/components/MyHome/MyCart.vue";
+import MyPagination from "@/components/MyHome/MyPagination.vue";
+
 export default {
-  name: "MyHome",
+  name: "MyMain",
   components: {
-    MyHeader,
-    MyAside,
-    MyMain,
+    Search,
+    Category,
+    MyTable,
+    MyCart,
+    Info,
+    MyPagination,
   },
 };
 </script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
-.application {
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  .my-header {
-    width: 100vw;
-    height: 122px;
-    padding-bottom: 20px;
-  }
-  .container {
+.my-main {
+  position: relative;
+  font-size: 14px;
+  .top {
     display: flex;
     justify-content: space-between;
-    flex: 1;
+    align-items: center;
+    height: 150px;
+    .left {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+    }
+  }
 
-    .my-aside {
-      flex: none;
-      width: 200px !important;
-      border-right: 1px solid #ccc;
-      overflow: hidden;
-    }
-    .my-main {
-      flex: 1;
-    }
+  .info {
+    margin-right: 20px;
   }
 }
 </style>

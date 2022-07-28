@@ -1,6 +1,6 @@
 <template>
   <div class="my-cart">
-    <el-button>加入清单</el-button>
+    <el-button @click.native="addCart">加入清单</el-button>
     <el-button @click.native="goCart">
       <i class="iconfont icon-gouwugouwuchedinggou"></i>
       购物车
@@ -22,7 +22,9 @@ export default {
   methods: {
     goCart() {
       this.$router.push({ name: "MyCart" });
-      console.log(123);
+    },
+    addCart() {
+      this.$store.commit("setCart");
     },
   },
 };

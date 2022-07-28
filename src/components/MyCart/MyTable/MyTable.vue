@@ -62,7 +62,7 @@
       <el-table-column label="图片信息" prop="image" width="70">
         <template slot-scope="scope">
           <img
-            src="@/assets/images/tyy.png"
+            :src="scope.row.image"
             alt="未加载"
             style="width: 20px; height: 20px"
           />
@@ -80,164 +80,53 @@
         width="70"
         show-overflow-tooltip
       ></el-table-column>
-      <el-table-column label="申请数量" width="120" show-overflow-tooltip>
+      <el-table-column
+        label="申请数量"
+        width="120"
+        prop="applyNumber"
+        show-overflow-tooltip
+      >
         <template slot-scope="scope">
           <!-- {{ scope.row.date }} -->
-          <ApplyNumber />
+          <ApplyNumber :code="scope.row.code" />
         </template>
       </el-table-column>
-      <el-table-column label="备注" width="200" fit>
-        <template>
-          <my-note />
+      <el-table-column label="备注" prop="note">
+        <template slot-scope="scope">
+          <EditableText :code="scope.row.code"></EditableText>
         </template>
       </el-table-column>
-      <!-- <el-table-column prop="address" label="地址" show-overflow-tooltip>
-      </el-table-column> -->
+      <el-table-column label="操作">
+        <template slot-scope="scope">
+          <el-button class="operate-button" @click="delItem(scope.row.code)"
+            >删除</el-button
+          >
+        </template>
+      </el-table-column>
     </el-table>
   </div>
 </template>
 
 <script>
 import ApplyNumber from "./ApplyNumber.vue";
-import MyNote from "./MyNote.vue";
+import EditableText from "./EditableText.vue";
 export default {
   name: "MyTable",
-  components: { ApplyNumber, MyNote },
+  components: { ApplyNumber, EditableText },
   data() {
     return {
-      // tableLabel: {
-      //   type: "用品类型",
-      //   name: "用品名称",
-      //   code: "用品编码",
-      //   scale: "型号规格",
-      //   unit: "单位",
-      //   image: "图片信息",
-      //   totalNumber: "库存数量",
-      //   suggestNumber: "建议数量",
-      // },
-      tableData: [
-        {
-          id: "0",
-          type: ["个人用品", "打印纸"],
-          name: "A4纸",
-          code: "001001",
-          scale: "长20cm，宽16cm",
-          unit: "包",
-          image: "/A4.png",
-          totalNumber: 100,
-          suggestNumber: 1,
-        },
-        {
-          id: "1",
-          type: ["公共用品", "公共设备"],
-          name: "会议室投影仪",
-          code: "101001",
-          scale: "长20cm，宽16cm",
-          unit: "包",
-          image: "/A4.png",
-          totalNumber: 100,
-          suggestNumber: 1,
-        },
-        {
-          id: "1",
-          type: ["公共用品", "公共设备"],
-          name: "会议室投影仪",
-          code: "101001",
-          scale: "长20cm，宽16cm",
-          unit: "包",
-          image: "/A4.png",
-          totalNumber: 100,
-          suggestNumber: 1,
-        },
-        {
-          id: "1",
-          type: ["公共用品", "公共设备"],
-          name: "会议室投影仪",
-          code: "101001",
-          scale: "长20cm，宽16cm",
-          unit: "包",
-          image: "/A4.png",
-          totalNumber: 100,
-          suggestNumber: 1,
-        },
-        {
-          id: "1",
-          type: ["公共用品", "公共设备"],
-          name: "会议室投影仪",
-          code: "101001",
-          scale: "长20cm，宽16cm",
-          unit: "包",
-          image: "/A4.png",
-          totalNumber: 100,
-          suggestNumber: 1,
-        },
-        {
-          id: "1",
-          type: ["公共用品", "公共设备"],
-          name: "会议室投影仪",
-          code: "101001",
-          scale: "长20cm，宽16cm",
-          unit: "包",
-          image: "/A4.png",
-          totalNumber: 100,
-          suggestNumber: 1,
-        },
-        {
-          id: "1",
-          type: ["公共用品", "公共设备"],
-          name: "会议室投影仪",
-          code: "101001",
-          scale: "长20cm，宽16cm",
-          unit: "包",
-          image: "/A4.png",
-          totalNumber: 100,
-          suggestNumber: 1,
-        },
-        {
-          id: "1",
-          type: ["公共用品", "公共设备"],
-          name: "会议室投影仪",
-          code: "101001",
-          scale: "长20cm，宽16cm",
-          unit: "包",
-          image: "/A4.png",
-          totalNumber: 100,
-          suggestNumber: 1,
-        },
-        {
-          id: "1",
-          type: ["公共用品", "公共设备"],
-          name: "会议室投影仪",
-          code: "101001",
-          scale: "长20cm，宽16cm",
-          unit: "包",
-          image: "/A4.png",
-          totalNumber: 100,
-          suggestNumber: 1,
-        },
-        {
-          id: "1",
-          type: ["公共用品", "公共设备"],
-          name: "会议室投影仪",
-          code: "101001",
-          scale: "长20cm，宽16cm",
-          unit: "包",
-          image: "/A4.png",
-          totalNumber: 100,
-          suggestNumber: 1,
-        },
-      ],
-      applyNumber: [
-        {
-          code: null,
-          applyNumber: null,
-          remark: "",
-        },
-      ],
       multipleSelection: [],
     };
   },
+  computed: {
+    tableData() {
+      return this.$store.state.MyHome.cart;
+    },
+  },
   methods: {
+    delItem(code) {
+      this.$store.commit("delCartItem", code);
+    },
     handleCellClick(row, column, cell, event) {
       if (column.label === "图片信息") {
         this.$refs.myClose.onclick = () => {
@@ -280,7 +169,7 @@ export default {
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
-      console.log(this.multipleSelection);
+      this.$store.commit("addSelect", val);
     },
   },
 };
@@ -337,16 +226,35 @@ export default {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-  }
 
-  .el-button {
-    margin: 20px;
-  }
+    .el-button {
+      margin: 20px;
+    }
 
-  ::v-deep .el-table .el-table__cell {
-    height: 20px;
-    padding: 6px 0;
-    font-size: 12px;
+    .el-table__cell {
+      min-height: 20px;
+      height: fit-content;
+      padding: 2px 0;
+      font-size: 12px;
+    }
+    .cell {
+      padding: 5px;
+      text-indent: 0;
+    }
   }
+  ::v-deep .operate-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 30px;
+    margin: 0 !important;
+    padding: 0 15px;
+  }
+}
+.my-note {
+  width: 100%;
+  height: fit-content;
+  min-height: 40px;
 }
 </style>

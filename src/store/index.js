@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import MyMain from './modules/MyMain/index.js'
+import MyHome from './modules/MyHome/index.js'
 
 Vue.use(Vuex)
 export default new Vuex.Store({
@@ -13,6 +13,6 @@ export default new Vuex.Store({
   actions: {
   },
   modules: {
-    MyMain
+    MyHome
   }
 })

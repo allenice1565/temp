@@ -40,9 +40,8 @@ export default {
 
     .my-aside {
       flex: none;
-      // width: 170px !important;
       border-right: 1px solid #ccc;
-      overflow: hidden;
+      // overflow: hidden;
     }
     .my-main {
       flex: 1;

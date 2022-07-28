@@ -1,24 +1,7 @@
-const express = require('express')
-const app = express()
-const port = 3000
-// 解决跨域问题
-
-app.all("*", function (req, res, next) {
-    // 设置允许跨域的域名,*代表允许任意域名跨域
-    res.header('Access-Control-Allow-Origin', '*');
-    // 允许的header类型
-    res.header('Access-Control-Allow-Headers', 'content-type');
-    // 跨域允许的请求方式
-    res.header('Access-Control-Allow-Methods', 'DELETE,PUT,POST,GET,OPTIONS');
-    if (req.method.toLowerCase() == 'options')
-        res.send(200); // 让options 尝试请求快速结束
-    else
-        next();
-})
-app.get('/api/get_stuff_list', (req, res) => {
-    res.send({
-        code: 200,
-        data: [
+export default {
+    state: {
+        type: "",
+        stuffList: [
             {
                 id: "0",
                 type: ["个人用品", "打印纸"],
@@ -26,13 +9,12 @@ app.get('/api/get_stuff_list', (req, res) => {
                 code: "001001",
                 scale: "长20cm，宽16cm",
                 unit: "包",
-                image: "/images/tyy.png",
+                image: "/A4.png",
                 totalNumber: 100,
                 suggestNumber: 1,
                 applyNumber: 0,
                 note: "",
             },
-
             {
                 id: "1",
                 type: ["公共用品", "公共设备"],
@@ -40,7 +22,7 @@ app.get('/api/get_stuff_list', (req, res) => {
                 code: "101001",
                 scale: "长20cm，宽16cm",
                 unit: "包",
-                image: "/images/tyy.png",
+                image: "/A4.png",
                 totalNumber: 100,
                 suggestNumber: 1,
                 applyNumber: 0,
@@ -53,7 +35,7 @@ app.get('/api/get_stuff_list', (req, res) => {
                 code: "101002",
                 scale: "长20cm，宽16cm",
                 unit: "包",
-                image: "/images/tyy.png",
+                image: "/A4.png",
                 totalNumber: 100,
                 suggestNumber: 1,
                 applyNumber: 0,
@@ -66,7 +48,7 @@ app.get('/api/get_stuff_list', (req, res) => {
                 code: "101003",
                 scale: "长20cm，宽16cm",
                 unit: "包",
-                image: "/images/tyy.png",
+                image: "/A4.png",
                 totalNumber: 100,
                 suggestNumber: 1,
                 applyNumber: 0,
@@ -79,7 +61,7 @@ app.get('/api/get_stuff_list', (req, res) => {
                 code: "101004",
                 scale: "长20cm，宽16cm",
                 unit: "包",
-                image: "/images/tyy.png",
+                image: "/A4.png",
                 totalNumber: 100,
                 suggestNumber: 1,
                 applyNumber: 0,
@@ -92,7 +74,7 @@ app.get('/api/get_stuff_list', (req, res) => {
                 code: "101005",
                 scale: "长20cm，宽16cm",
                 unit: "包",
-                image: "/images/tyy.png",
+                image: "/A4.png",
                 totalNumber: 100,
                 suggestNumber: 1,
                 applyNumber: 0,
@@ -105,7 +87,7 @@ app.get('/api/get_stuff_list', (req, res) => {
                 code: "101006",
                 scale: "长20cm，宽16cm",
                 unit: "包",
-                image: "/images/tyy.png",
+                image: "/A4.png",
                 totalNumber: 100,
                 suggestNumber: 1,
                 applyNumber: 0,
@@ -118,7 +100,7 @@ app.get('/api/get_stuff_list', (req, res) => {
                 code: "101007",
                 scale: "长20m，宽16cm",
                 unit: "包",
-                image: "/images/tyy.png",
+                image: "/A4.png",
                 totalNumber: 100,
                 suggestNumber: 1,
                 applyNumber: 0,
@@ -131,7 +113,7 @@ app.get('/api/get_stuff_list', (req, res) => {
                 code: "101008",
                 scale: "长20cm，宽16cm",
                 unit: "包",
-                image: "/images/tyy.png",
+                image: "/A4.png",
                 totalNumber: 100,
                 suggestNumber: 1,
                 applyNumber: 0,
@@ -144,20 +126,59 @@ app.get('/api/get_stuff_list', (req, res) => {
                 code: "101009",
                 scale: "长20cm，宽16cm",
                 unit: "包",
-                image: "/images/tyy.png",
+                image: "/A4.png",
                 totalNumber: 100,
                 suggestNumber: 1,
                 applyNumber: 0,
                 note: "",
-            }
-        ]
-    })
-})
+            }],
+        cart: [],
+        select: []
+    },
+    mutations: {
+        SETTYPE(state, type) {
+            state.type = type
+        },
+        setCart(state) {
+            state.cart = state.select
+        },
+        addSelect(state, arr) {
+            state.select = arr
+            // arr.forEach(item => {
+            //     let index = state.select.findIndex(value => value.code === item.code)
+            //     if (index === -1) {
+            //         state.select.push(item)
+            //     }
+            // })
+        },
+        addCart(state, arr) {
+            arr.forEach(item => {
+                let index = state.cart.findIndex(value => value.code === item.code)
+                if (index === -1) {
+                    state.cart.push(item)
+                    // console.log("addCart success")
+                }
+            })
+        },
+        changeApplyNumber(state, obj) {
+            state.stuffList.forEach(item => {
+                if (item.code === obj.code) {
+                    item.applyNumber = obj.applyNumber
+                }
+            });
+        },
+        changeNote(state, obj) {
+            state.stuffList.forEach(item => {
+                if (item.code === obj.code) {
+                    console.log("find")
+                    console.log(obj.content)
+                    item.note = obj.content
+                }
+            });
+        }
+    },
+    actions: {},
+    getters: {
 
-app.post('/api/submit_cart', (req, res) => {
-    console.log('api/get_stuff_list')
-
-})
-app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
-})
+    }
+}

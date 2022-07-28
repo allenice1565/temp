@@ -14,13 +14,13 @@
       :placeholder="number"
       v-model="number"
     ></el-input>
-
     <i @click="plus" class="el-icon-circle-plus-outline"></i>
   </div>
 </template>
 <script>
 export default {
   name: "ApplyNumber",
+  props: ["code"],
   data() {
     return {
       number: 0,
@@ -36,8 +36,12 @@ export default {
   watch: {
     number() {
       if (this.number < 0) {
-        return 0;
+        this.number = 0;
       }
+      this.$store.commit("changeApplyNumber", {
+        code: this.code,
+        applyNumber: this.number,
+      });
     },
   },
   methods: {
@@ -83,7 +87,7 @@ export default {
     overflow: hidden;
   }
   ::v-deep .apply-input {
-    width: 40px;
+    // width: 40px;
     height: 30px;
     line-height: 30px;
     font-size: 12px;

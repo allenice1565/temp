@@ -1,24 +1,21 @@
 <template>
   <div class="my-search">
     <span>用品名称：</span>
-    <input class="search-input" type="text" placeholder="请输入内容">
+    <input class="search-input" type="text" placeholder="请输入内容" />
     <el-button>查询</el-button>
     <el-button>重置</el-button>
     <!-- <el-button>加入清单</el-button> -->
     <!-- <i class="el-icon-shopping-cart-2 cart"></i> -->
-
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Search',
+  name: "MySearch",
   data() {
-    return {
-
-    }
-  }
-}
+    return {};
+  },
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -49,10 +46,9 @@ export default {
     text-align: center;
     vertical-align: center;
   }
-  .icon-gouwugouwuchedinggou{
+  .icon-gouwugouwuchedinggou {
     font-size: 100px;
     color: green;
   }
-
 }
 </style>

@@ -24,6 +24,17 @@ export default {
       isBlur: true,
     };
   },
+  props: ["code"],
+  watch: {
+    content() {
+      this.$store.commit("changeNote", {
+        code: this.code,
+        content: this.content,
+      });
+      // console.log(this.content);
+      // console.log(this.code);
+    },
+  },
   computed: {
     isShowButton() {
       return this.isHover || !this.isBlur;
