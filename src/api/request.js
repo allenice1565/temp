@@ -7,7 +7,6 @@ function get(url) {
     return function (params) {
         return axios.get(url, { params }).then(res => {
             const { data } = res.data;
-            console.log(data)
             return data
         }).catch(e => { console.log(e) })
     }

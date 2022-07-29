@@ -3,9 +3,25 @@ export default {
         type: "",
         stuffList: [],
         cart: [],
-        select: []
+        select: [],
+        userHomeTableList: [],
+        userHomePageSize: 5,
+        userHomeCurrentPage: 1
+
     },
     mutations: {
+        setUserHomeCurrentPage(state, page) {
+            state.userHomeCurrentPage = page
+        },
+        setUserHomePageSize(state, size) {
+            state.userHomePageSize = size
+        },
+        setUserHomeTableList(state) {
+            state.userHomeTableList = _.chunk(state.stuffList, state.userHomePageSize)[state.userHomeCurrentPage - 1]
+            // console.log(_.chunk(state.stuffList, _.ceil(length / state.userHomePageSize)))
+            // console.log(state.userHomeCurrentPage)
+            // console.log(state.stuffList)
+        },
         delCartItem(state, code) {
             let index = state.cart.findIndex((item) => item.code === code)
             state.cart.splice(index, 1)
@@ -55,6 +71,5 @@ export default {
     },
     actions: {},
     getters: {
-
     }
 }

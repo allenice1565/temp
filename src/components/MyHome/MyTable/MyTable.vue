@@ -122,7 +122,7 @@ export default {
   },
   computed: {
     tableData() {
-      return this.$store.state.MyHome.stuffList;
+      return this.$store.state.MyHome.userHomeTableList;
     },
   },
   methods: {
@@ -176,8 +176,15 @@ export default {
   },
   mounted() {
     let data = getStuffList({ random: Math.random() });
-    // console.log(data.then((v) => Promise.resolve(v)));
-    data.then((v) => this.$store.commit("setStuffList", v));
+    // data.then((v) => console.log(v));
+    data
+      .then((v) => this.$store.commit("setStuffList", v))
+      .then(() =>
+        this.$store.commit(
+          "setUserHomeTableList",
+          this.$store.state.MyHome.userHomeCurrentPage
+        )
+      );
   },
 };
 </script>
